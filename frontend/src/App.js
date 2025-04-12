@@ -20,7 +20,6 @@ const ProtectedRoute = ({ children }) => {
 function App() {
   console.log("render app..");
   const token = localStorage.getItem("authToken");
-  console.log("token", token);
 
   return (
     <AppLayout>

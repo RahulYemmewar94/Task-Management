@@ -12,7 +12,7 @@ export const fetchUserById = async (userId, token) => {
       { headers }
     );
 
-    return response.data; // Extract user data
+    return response.data;
   } catch (error) {
     console.error(`Error fetching user with ID ${userId}:`, error);
     throw new Error("Failed to retrieve user details");

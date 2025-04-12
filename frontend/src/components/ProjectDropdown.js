@@ -10,12 +10,12 @@ const ProjectDropdown = ({ id, navigate }) => {
     try {
       const data = await axios.delete(`http://localhost:9000/project/${id}`, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          Authorization: `Bearer ${localStorage.getItem("authToken")}`,
         },
       });
       if (data.data.deletedCount > 0) {
         toast.success("Record deleted successfully");
-        navigate("/");
+        // navigate("/");
         const customEvent = new CustomEvent("projectUpdate");
         document.dispatchEvent(customEvent);
       } else {
