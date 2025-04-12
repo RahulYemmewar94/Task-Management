@@ -24,7 +24,7 @@ const Navbar = () => {
       localStorage.clear();
 
       // Redirect to login page
-      navigate("/login");
+      navigate("/");
     } catch (error) {
       console.error(
         "Logout failed:",

@@ -12,7 +12,7 @@ const ProtectedRoute = ({ children }) => {
   const token = localStorage.getItem("authToken");
   if (!token) {
     // Redirect to login if not authenticated
-    return <Navigate to="/login" replace />;
+    return <Navigate to="/" replace />;
   }
   return children;
 };
@@ -27,7 +27,7 @@ function App() {
       <Toaster position="top-right" gutter={8} />
       <Routes>
         {/* Public Route */}
-        <Route path="/login" element={<Login />} />
+        <Route path="/" element={<Login />} />
 
         {/* Protected Routes */}
         <Route
