@@ -7,11 +7,9 @@ import Navbar from "./components/Navbar";
 import Sidebar from "./components/Sidebar";
 import AddProject from "./components/addProject";
 
-// Protected Route Component
 const ProtectedRoute = ({ children }) => {
   const token = localStorage.getItem("authToken");
   if (!token) {
-    // Redirect to login if not authenticated
     return <Navigate to="/" replace />;
   }
   return children;
@@ -19,7 +17,6 @@ const ProtectedRoute = ({ children }) => {
 
 function App() {
   console.log("render app..");
-  const token = localStorage.getItem("authToken");
 
   return (
     <AppLayout>

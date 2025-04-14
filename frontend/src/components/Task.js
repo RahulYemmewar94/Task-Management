@@ -4,8 +4,7 @@ import { v4 as uuid } from "uuid";
 import AddTaskModal from "./AddTaskModal";
 import BtnPrimary from "./BtnPrimary";
 import DropdownMenu from "./DropdownMenu";
-// import TaskModal from "./TaskModal";
-import { useParams, useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 import ProjectDropdown from "./ProjectDropdown";
 import axios from "axios";
 import toast from "react-hot-toast";
@@ -20,7 +19,6 @@ function Task(props) {
     isUserAddOpen,
     setUserAddOpen,
   } = props;
-  console.log("props", props);
 
   const [isAddTaskModalOpen, setAddTaskModal] = useState(false);
   const [columns, setColumns] = useState({});
@@ -28,8 +26,8 @@ function Task(props) {
   const [isTaskOpen, setTaskOpen] = useState(false);
   const [taskId, setTaskId] = useState(false);
   const [title, setTitle] = useState("");
-  const [users, setUsers] = useState(null); // State to store users details
-  const [selectedUser, setSelectedUser] = useState(null); // State for selected user
+  const [users, setUsers] = useState(null);
+  const [selectedUser, setSelectedUser] = useState(null);
   const [keyForActiveTab, setKeyForActiveTab] = useState("");
 
   const navigate = useNavigate();
@@ -288,7 +286,34 @@ function Task(props) {
               </BtnPrimary>
             </div>
             <DragDropContext
-              onDragEnd={(result) => onDragEnd(result, columns, setColumns)}
+              onDragEnd={(result) => {
+                const { source, destination } = result;
+                if (!destination) return;
+
+                const sourceColumn = columns[source.droppableId];
+                const destColumn = columns[destination.droppableId];
+
+                // Ensure tasks move step by step
+                const allowedTransitions = {
+                  Requested: "To do",
+                  "To do": "In Progress",
+                  "In Progress": "Done",
+                };
+
+                if (
+                  source.droppableId !== destination.droppableId &&
+                  allowedTransitions[sourceColumn.name] !== destColumn.name
+                ) {
+                  toast.error(
+                    `Tasks can only move from "${sourceColumn.name}" to "${
+                      allowedTransitions[sourceColumn.name]
+                    }".`
+                  );
+                  return;
+                }
+
+                onDragEnd(result, columns, setColumns);
+              }}
             >
               <div className="flex gap-5 mb-4">
                 {Object.entries(columns).map(([columnId, column], index) => {
